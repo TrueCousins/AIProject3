@@ -1,5 +1,4 @@
 import java.io.*;
-
 public class Clause {
 
     private String sentence[];
