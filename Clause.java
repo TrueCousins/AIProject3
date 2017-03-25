@@ -1,3 +1,5 @@
+import java.io.*;
+
 public class Clause {
 
     private String sentence[];
@@ -57,4 +59,8 @@ public class Clause {
         else
             System.out.println("{" + par1 + " " + par2 + "}\n"); 
     } //end printClause
+
+    public int clauseComp(Clause check, Clause prove) {
+
+    }
 } //end Clause
