@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.*;
+
 public class Resolution {
 
     public static void main(String args[]) {
