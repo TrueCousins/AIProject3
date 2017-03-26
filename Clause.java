@@ -59,7 +59,38 @@ public class Clause {
             System.out.println("{" + par1 + " " + par2 + "}\n"); 
     } //end printClause
 
-    public int clauseComp(Clause check, Clause prove) {
-
+     public int clauseComp(Clause check, Clause prove) {
+    	
+    	// Remove tilde
+    	String []noTilde1 = removeTilde(check.sentence);
+    	String []noTilde2 = removeTilde(prove.sentence);
+    	
+    	
+    	for(int i = 0; i < noTilde2.length;i++){   
+    		for(int j = 0; j < noTilde1.length; j++)
+    		{
+				if(Arrays.asList(noTilde1).contains(noTilde2[i])){
+					System.out.println("Found match");
+					check.printClause();
+					
+					if((prove.sentence[j].contains("~") && !check.sentence[i].contains("~")) || (!prove.sentence[j].contains("~") && check.sentence[i].contains("~"))){
+						System.out.println("Found negation and opposite.");
+					} // end inner if
+				} // end if	
+			} // end inner for
+    	} // end for
+    	return 1;
     }
+    
+    private String[] removeTilde(String[]s){
+    	
+    	for(int j = 0; j < s.length; j++){
+			
+			// Remove ~
+    		if(s[j].contains("~")){
+    			s[j] = s[j].substring(1, s[j].length());
+    		} // end if
+		} // end for
+    	return s;
+    } // end removeTilde
 } //end Clause
