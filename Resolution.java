@@ -37,6 +37,19 @@ public class Resolution {
     		//cList.get(i).printClause();
     	//}
     	
-
+        // Start comparison
+    	for(int i = 0; i < cList.size() - 1; i++){
+    		
+    		// Get the last clause
+    		Clause prove = cList.get(cList.size()-1);
+    		//String [] temp = prove.getSen();
+    		//System.out.println(temp[0]);
+    		
+    		// Get each clause 
+    		Clause check = cList.get(i);
+    		
+    		// Check each clause with the last clause
+    		cList.get(i).clauseComp(check, prove);
+    	}
     }
 } //end Resolution
