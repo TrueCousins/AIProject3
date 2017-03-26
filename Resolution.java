@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,7 +41,7 @@ public class Resolution {
 		
 		while(true) {
         	// Start comparison
-			int minClauseSize = 0;
+			int minClauseSize = 999999;
 			int currentMin = 0;
 			int minClauseIndex = 0;
     		for(int i = 0; i < cList.size() - 1; i++){
@@ -53,41 +54,49 @@ public class Resolution {
     			Clause check = cList.get(i);
     		
     			// Check each clause with the last clause
-    			minClauseSize = clauseComp(check, prove);
+    			currentMin = clauseComp(check, prove);
 
-				if(currentMin < minClauseSize) {
+				if(currentMin < minClauseSize && currentMin != -1) {
 					minClauseSize = currentMin;
 					minClauseIndex = i;
 				} //end if
     		} //end for
-
-			String resolvedClause = clauseCompStr(clist.get(minClauseIndex), clist.get(cList.size() -1));
-			Clause nextStep = new Clause(clist.get(minClauseIndex), clist.get(cList.size() -1, resolvedClause));
-			clist.add(nextStep);
+    		
+    		cList.get(minClauseIndex).setUsed(true);
+    		cList.get(cList.size() -1).setUsed(true);
+			String resolvedClause = clauseCompStr(cList.get(minClauseIndex), cList.get(cList.size() -1));
+			Clause nextStep = new Clause(cList.get(minClauseIndex), cList.get(cList.size() -1), resolvedClause, counter++);
+			cList.add(nextStep);
 			String test[] = nextStep.getSen();
-			if(test[0] = "False")
+			if(test[0].equals("False"))
 				break;
 		} //end while
+		
+		for(int i = 0; i < cList.size(); i++) {
+			Clause test = cList.get(i);
+			if(test.getUsed())
+				test.printClause();
+		}
 
     } //end main
 
-	 public int clauseComp(Clause check, Clause prove) {
+	 public static int clauseComp(Clause check, Clause prove) {
     	
     	// Remove tilde
-    	String []noTilde1 = removeTilde(check.sentence);
-    	String []noTilde2 = removeTilde(prove.sentence);
+		String []noTilde1 = Arrays.copyOf(removeTilde(check.getSen()), check.getSen().length);
+	    String []noTilde2 = Arrays.copyOf(removeTilde(prove.getSen()), prove.getSen().length);
     	
     	
     	for(int i = 0; i < noTilde2.length;i++){   
     		for(int j = 0; j < noTilde1.length; j++)
     		{
 				if(Arrays.asList(noTilde2).contains(noTilde1[j])){
-					System.out.println("Found match at element: " + j);
-					check.printClause();
+					//System.out.println("Found match at element: " + j);
+					//check.printClause();
 					
-					if((prove.sentence[i].contains("~") && check.sentence[j].equals(noTilde1[j])) || (!prove.sentence[i].contains("~") && check.sentence[j].equals(noTilde1[j]))){
-						System.out.println("This is a negation of the last clause.\n");
-                        return check.sentence.length;
+					if((prove.getSen()[i].contains("~") && check.getSen()[j].equals(noTilde1[j])) || (!prove.getSen()[i].contains("~") && check.getSen()[j].equals(noTilde1[j]))){
+						//System.out.println("This is a negation of the last clause.\n");
+                        return check.getSen().length;
 					} // end inner if
 				} // end if	
 			} // end inner for
@@ -95,16 +104,40 @@ public class Resolution {
     	return -1;
     } // end clauseComp
     
-    private String[] removeTilde(String[] s){
-    	
-    	for(int j = 0; j < s.length; j++){
+	 public static String clauseCompStr(Clause check, Clause prove) {
+	    	
+	    	// Remove tilde
+	    	String []noTilde1 = Arrays.copyOf(removeTilde(check.getSen()), check.getSen().length);
+	    	String []noTilde2 = Arrays.copyOf(removeTilde(prove.getSen()), prove.getSen().length);
+	    	
+	    	
+	    	for(int i = 0; i < noTilde2.length;i++){   
+	    		for(int j = 0; j < noTilde1.length; j++)
+	    		{
+					if(Arrays.asList(noTilde2).contains(noTilde1[j])){
+						//System.out.println("Found match at element: " + j);
+						//check.printClause();
+						
+						if((prove.getSen()[i].contains("~") && check.getSen()[j].equals(noTilde1[j])) || (!prove.getSen()[i].contains("~") && check.getSen()[j].equals(noTilde1[j]))){
+							//System.out.println("This is a negation of the last clause.\n");
+	                        return check.getSen()[j];
+						} // end inner if
+					} // end if	
+				} // end inner for
+	    	} // end for
+	    	return null;
+	    } // end clauseComp
+	 
+    public static String[] removeTilde(String[] s){
+    	String[] newString = (String[])s.clone();
+    	for(int j = 0; j < newString.length; j++){
 			
 			// Remove ~
-    		if(s[j].contains("~")){
-    			s[j] = s[j].substring(1, s[j].length());
+    		if(newString[j].contains("~")){
+    			newString[j] = newString[j].substring(1, newString[j].length());
     		} // end if
 		} // end for
-    	return s;
+    	return newString;
     } // end removeTilde
 
 } //end Resolution
