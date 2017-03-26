@@ -69,18 +69,18 @@ public class Clause {
     	for(int i = 0; i < noTilde2.length;i++){   
     		for(int j = 0; j < noTilde1.length; j++)
     		{
-				if(Arrays.asList(noTilde1).contains(noTilde2[i])){
-					System.out.println("Found match");
+				if(Arrays.asList(noTilde2).contains(noTilde1[j])){
+					System.out.println("Found match at element: " + j);
 					check.printClause();
 					
-					if((prove.sentence[j].contains("~") && !check.sentence[i].contains("~")) || (!prove.sentence[j].contains("~") && check.sentence[i].contains("~"))){
-						System.out.println("Found negation and opposite.");
+					if((prove.sentence[i].contains("~") && check.sentence[j].equals(noTilde1[j])) || (!prove.sentence[i].contains("~") && check.sentence[j].equals(noTilde1[j]))){
+						System.out.println("This is a negation of the last clause.\n");
 					} // end inner if
 				} // end if	
 			} // end inner for
     	} // end for
     	return 1;
-    }
+    } // end clauseComp
     
     private String[] removeTilde(String[]s){
     	
