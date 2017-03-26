@@ -1,4 +1,7 @@
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 public class Clause {
 
     private String sentence[];
@@ -18,6 +21,29 @@ public class Clause {
         this.par1 = par1;
         this.par2 = par2;
     } //end Clause(4)
+
+    public Clause(Clause parent1, Clause parent2, String resolved) {
+       List<String> temp = new ArrayList<>(Arrays.asList(parent1.sentence)); 
+       temp.addAll(Arrays.asList(parent2.sentence));
+       List<String> remove = new ArrayList<>();
+
+       for(String entry : temp) {
+           if(entry.contains(resolved))
+                remove.add(entry);
+       }
+       temp.removeAll(remove);
+
+       if(temp.size() == 0) {//empty List   
+            this.sentence = new String[1];
+            this.sentence[0] = "False";
+       }   //end if  
+       else
+            this.sentence = temp.toArray();
+
+       this.par1 = parent1.step;
+       this.par2 = parent2.step; 
+       this.used = true;
+    }
 
     public int getSen() {
         return sentence;
@@ -59,38 +85,5 @@ public class Clause {
             System.out.println("{" + par1 + " " + par2 + "}\n"); 
     } //end printClause
 
-     public int clauseComp(Clause check, Clause prove) {
-    	
-    	// Remove tilde
-    	String []noTilde1 = removeTilde(check.sentence);
-    	String []noTilde2 = removeTilde(prove.sentence);
-    	
-    	
-    	for(int i = 0; i < noTilde2.length;i++){   
-    		for(int j = 0; j < noTilde1.length; j++)
-    		{
-				if(Arrays.asList(noTilde2).contains(noTilde1[j])){
-					System.out.println("Found match at element: " + j);
-					check.printClause();
-					
-					if((prove.sentence[i].contains("~") && check.sentence[j].equals(noTilde1[j])) || (!prove.sentence[i].contains("~") && check.sentence[j].equals(noTilde1[j]))){
-						System.out.println("This is a negation of the last clause.\n");
-					} // end inner if
-				} // end if	
-			} // end inner for
-    	} // end for
-    	return 1;
-    } // end clauseComp
     
-    private String[] removeTilde(String[]s){
-    	
-    	for(int j = 0; j < s.length; j++){
-			
-			// Remove ~
-    		if(s[j].contains("~")){
-    			s[j] = s[j].substring(1, s[j].length());
-    		} // end if
-		} // end for
-    	return s;
-    } // end removeTilde
 } //end Clause
