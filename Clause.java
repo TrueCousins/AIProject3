@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -11,7 +12,7 @@ public class Clause {
     private int par2 = -1;
 
     public Clause(String sentence[], int step) {
-        this.sentence = setence;
+        this.sentence = sentence;
         this.step = step;
 
     } //end Clause(2)
@@ -22,7 +23,7 @@ public class Clause {
         this.par2 = par2;
     } //end Clause(4)
 
-    public Clause(Clause parent1, Clause parent2, String resolved) {
+    public Clause(Clause parent1, Clause parent2, String resolved, int step) {
        List<String> temp = new ArrayList<>(Arrays.asList(parent1.sentence)); 
        temp.addAll(Arrays.asList(parent2.sentence));
        List<String> remove = new ArrayList<>();
@@ -37,15 +38,17 @@ public class Clause {
             this.sentence = new String[1];
             this.sentence[0] = "False";
        }   //end if  
-       else
-            this.sentence = temp.toArray();
-
+       else {
+    	   	String[] arr = temp.toArray(new String[temp.size()]);
+            this.sentence = arr;
+       }
        this.par1 = parent1.step;
        this.par2 = parent2.step; 
        this.used = true;
+       this.step = step;
     }
 
-    public int getSen() {
+    public String[] getSen() {
         return sentence;
     } //end getSen
     public int getStep() {
@@ -67,6 +70,9 @@ public class Clause {
     public void setStep() {
         this.step = step;
     } //end setStep
+    public void setUsed(boolean used) {
+    	this.used = used;
+    }
     public void setPar1() {
         this.par1 = par1;
     } //end setPar1
