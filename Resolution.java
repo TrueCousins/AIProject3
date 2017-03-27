@@ -60,23 +60,39 @@ public class Resolution {
 					minClauseSize = currentMin;
 					minClauseIndex = i;
 				} //end if
+				
     		} //end for
+    		//System.out.print("Passed: ");
+    		//cList.get(minClauseIndex).printClause();
     		
     		cList.get(minClauseIndex).setUsed(true);
     		cList.get(cList.size() -1).setUsed(true);
 			String resolvedClause = clauseCompStr(cList.get(minClauseIndex), cList.get(cList.size() -1));
+			
+			//System.out.println("Resolved: " + resolvedClause);
 			Clause nextStep = new Clause(cList.get(minClauseIndex), cList.get(cList.size() -1), resolvedClause, counter++);
 			cList.add(nextStep);
 			String test[] = nextStep.getSen();
 			if(test[0].equals("False"))
 				break;
+			
+			/*for(int i = 0; i < cList.size(); i++){
+			cList.get(i).printClause();
+			}
+			System.out.println("");*/
 		} //end while
+		
 		
 		for(int i = 0; i < cList.size(); i++) {
 			Clause test = cList.get(i);
 			if(test.getUsed())
 				test.printClause();
 		}
+		System.out.println("Size of final clause set: " + cList.size());
+		
+		/*for(int i = 0; i < cList.size(); i++){
+			cList.get(i).printClause();
+		}*/
 
     } //end main
 
@@ -94,7 +110,7 @@ public class Resolution {
 					//System.out.println("Found match at element: " + j);
 					//check.printClause();
 					
-					if((prove.getSen()[i].contains("~") && check.getSen()[j].equals(noTilde1[j])) || (!prove.getSen()[i].contains("~") && check.getSen()[j].equals(noTilde1[j]))){
+					if((prove.getSen()[i].contains("~") && check.getSen()[j].equals(noTilde1[j])) || (check.getSen()[j].contains("~") && prove.getSen()[i].equals(noTilde2[i]))){
 						//System.out.println("This is a negation of the last clause.\n");
                         return check.getSen().length;
 					} // end inner if
@@ -118,9 +134,9 @@ public class Resolution {
 						//System.out.println("Found match at element: " + j);
 						//check.printClause();
 						
-						if((prove.getSen()[i].contains("~") && check.getSen()[j].equals(noTilde1[j])) || (!prove.getSen()[i].contains("~") && check.getSen()[j].equals(noTilde1[j]))){
+						if((prove.getSen()[i].contains("~") && check.getSen()[j].equals(noTilde1[j])) || (check.getSen()[j].contains("~") && prove.getSen()[i].equals(noTilde2[i]))){
 							//System.out.println("This is a negation of the last clause.\n");
-	                        return check.getSen()[j];
+	                        return noTilde1[j];
 						} // end inner if
 					} // end if	
 				} // end inner for
