@@ -1,34 +1,39 @@
-import java.io.*;
-import java.util.List;
+
+/*****************************************************
+CS 4365.001
+Colleen Cousins
+Matthew Villarreal
+******************************************************/
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-public class Clause {
 
+public class Clause {
     private String sentence[];
     private int step;
     private boolean used = false;
     private int par1 = -1;
     private int par2 = -1;
 
+    // ************************** CONSTRUCTORS *****************************************
     public Clause(String sentence[], int step) {
         this.sentence = sentence;
         this.step = step;
 
     } //end Clause(2)
+    
     public Clause(String sentence[], int step, int par1, int par2) {
         this.sentence = sentence;
         this.step = step;
         this.par1 = par1;
         this.par2 = par2;
     } //end Clause(4)
-
+    
     public Clause(Clause parent1, Clause parent2, String resolved, int step) {
        List<String> p1List = new ArrayList<>(Arrays.asList(parent1.sentence)); 
        List<String> p2List = new ArrayList<>(Arrays.asList(parent2.sentence));
-       //temp.addAll(Arrays.asList(parent2.sentence));
        List<String> removeList = new ArrayList<>();
 
        for(String p1entry : p1List) {
@@ -69,13 +74,14 @@ public class Clause {
        else {
     	   	String[] arr = temp.toArray(new String[temp.size()]);
             this.sentence = arr;
-       }
+       } // end else
        this.par1 = parent1.step;
        this.par2 = parent2.step; 
        this.used = true;
        this.step = step;
-    }
+    } // end Clause(4)
 
+ // ************************** GETTERS *****************************************
     public String[] getSen() {
         return sentence;
     } //end getSen
@@ -92,22 +98,15 @@ public class Clause {
         return par2;
     } //end getPar2
 
+ // ************************** SETTERS *****************************************
     public void setSen(String sentence[]) {
         this.sentence = sentence;
     } //end setSen
-    public void setStep() {
-        this.step = step;
-    } //end setStep
     public void setUsed(boolean used) {
     	this.used = used;
     }
-    public void setPar1() {
-        this.par1 = par1;
-    } //end setPar1
-    public void setPar2() {
-        this.par2 = par2;
-    } //end setPar2
-
+    
+ // ************************** METHODS *****************************************
     public void printClause() {
         System.out.print(step + ". ");
         for(int i = 0; i < sentence.length; i++) {
@@ -118,6 +117,4 @@ public class Clause {
         else
             System.out.println("{" + par1 + " " + par2 + "}"); 
     } //end printClause
-
-    
 } //end Clause
