@@ -1,7 +1,9 @@
 import java.io.*;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 public class Clause {
 
@@ -55,6 +57,10 @@ public class Clause {
        List<String> temp = new ArrayList<>(Arrays.asList(parent1.sentence));
        temp.addAll(p2List);
        temp.removeAll(removeList);
+
+       Set<String> duplicates = new LinkedHashSet<>(temp);
+       temp.clear();
+       temp.addAll(duplicates);
 
        if(temp.size() == 0) {//empty List   
             this.sentence = new String[1];
