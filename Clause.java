@@ -24,15 +24,37 @@ public class Clause {
     } //end Clause(4)
 
     public Clause(Clause parent1, Clause parent2, String resolved, int step) {
-       List<String> temp = new ArrayList<>(Arrays.asList(parent1.sentence)); 
-       temp.addAll(Arrays.asList(parent2.sentence));
-       List<String> remove = new ArrayList<>();
+       List<String> p1List = new ArrayList<>(Arrays.asList(parent1.sentence)); 
+       List<String> p2List = new ArrayList<>(Arrays.asList(parent2.sentence));
+       //temp.addAll(Arrays.asList(parent2.sentence));
+       List<String> removeList = new ArrayList<>();
 
-       for(String entry : temp) {
-           if(entry.contains(resolved))
-                remove.add(entry);
-       }
-       temp.removeAll(remove);
+       for(String p1entry : p1List) {
+           if(p1entry.contains("~")) {
+               String testp1 = p1entry.substring(1, p1entry.length());
+               if(testp1.equals(resolved)) 
+                    removeList.add(p1entry);
+           } //end if
+           else {
+               if(p1entry.equals(resolved))
+                    removeList.add(p1entry);
+           } //end else
+       } //end for
+
+       for(String p2entry : p2List) {
+           if(p2entry.contains("~")) {
+               String testp2 = p2entry.substring(1, p2entry.length());
+               if(testp2.equals(resolved)) 
+                    removeList.add(p2entry);
+           } //end if
+           else {
+               if(p2entry.equals(resolved))
+                    removeList.add(p2entry);
+           } //end else
+       } //end for
+       List<String> temp = new ArrayList<>(Arrays.asList(parent1.sentence));
+       temp.addAll(p2List);
+       temp.removeAll(removeList);
 
        if(temp.size() == 0) {//empty List   
             this.sentence = new String[1];
@@ -88,7 +110,7 @@ public class Clause {
         if(par1 == -1 && par2 == -1) //clause has no parents
             System.out.print("{}\n" );
         else
-            System.out.println("{" + par1 + " " + par2 + "}\n"); 
+            System.out.println("{" + par1 + " " + par2 + "}"); 
     } //end printClause
 
     
