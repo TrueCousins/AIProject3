@@ -1,0 +1,35 @@
+Course: 	    CS 4365
+Program 2: 	    Theorum Prover Using Resolution
+Description:	This program implements the resolution principle and proof by negation to prove a clause is valid within the set of valid clauses. It compares the last
+                clause within the set of clauses (which is the clause we wish to prove the validity of) with a the shortest length clause in the knowledge base that
+                contains a literal that is a negation of literal in the other clause. They then produce a child which is a combination of the two clauses with the 
+                contradicting clauses removed. It continues to pick clauses in this fashion until the child clause produced is null, or the program cannot find a clause
+                with a literal that contradicts a literal within the clauses produced. If it returns null, the program returns the steps and clauses used to produce the
+                null clause, but if it cannot find a clause it returns "FALSE" with the current number of clauses produced.
+
+Group Members:
+    - Colleen Cousins (ctc130030)
+	- Matthew Villarreal (miv140130)
+
+Source Files:
+	- Resolution.java		    : This contains our Main, our resolution algorithm, and our hueristic for picking and comparing clauses with contradicting literals.
+	- Clause.java		        : This contains our class to produce Clause objects which store a single clause with all of its literals as an array. It also contains 
+                                  a method to produce a new Clause from two parent Clauses, as well as a method to output the clause to stdout.  
+	
+Platform:
+	- Windows and Linux
+
+Problems We Had:
+    - Comparing Clauses         : Our heuristic for finding clauses with contradicting literals would sometimes find clauses that have the same literal but were not 
+                                  contradicting.
+    - Combining Clauses         : When combining parent clauses to make a child clause our method would remove literals from the new clause that contained the name
+                                  of the contradicting clause we were trying to remove. Meaning, if the literal we would try to remove was named "NoLeak", but the 
+                                  clauses also had literals named "NoLeakH1" nad "NoLeakH2" that did not have contradicitons, it would remove all of these clauses from
+                                  the child clause.	
+
+How to Run:
+	Running in Linux
+	1) Compile: javac Resolution.java
+	3) Run: java Resolution <inputFile>
+	
+	
