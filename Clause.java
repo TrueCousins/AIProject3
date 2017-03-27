@@ -1,3 +1,4 @@
+
 /*****************************************************
 CS 4365.001
 Colleen Cousins
@@ -6,6 +7,8 @@ Matthew Villarreal
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class Clause {
     private String sentence[];
@@ -59,6 +62,10 @@ public class Clause {
        List<String> temp = new ArrayList<>(Arrays.asList(parent1.sentence));
        temp.addAll(p2List);
        temp.removeAll(removeList);
+
+       Set<String> duplicates = new LinkedHashSet<>(temp);
+       temp.clear();
+       temp.addAll(duplicates);
 
        if(temp.size() == 0) {//empty List   
             this.sentence = new String[1];

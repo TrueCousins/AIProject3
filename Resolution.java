@@ -65,7 +65,8 @@ public class Resolution {
     		//System.out.print("Passed: ");
     		//cList.get(minClauseIndex).printClause();
     		if(minClauseSize == 999999) {
-				System.out.println("True, this is a valid clause");
+				System.out.println("FAILURE");
+				System.out.println("Size of final clause set: " + cList.size());
 				System.exit(0);
 			} //end if
     		cList.get(minClauseIndex).setUsed(true);
